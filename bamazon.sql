@@ -15,13 +15,13 @@ PRIMARY KEY (id)
 INSERT INTO products (item_id, product_name, department_name, price, stock_quantity)
 VALUES
 
-  (1, B00JM,'Play-Doh','Clay & Dough', 7.99,100)
-, (2, B07BH,'L.O.L Surprise!','Dolls',10.99,36)
-, (3, B004S, 'Jenga','Games',7.19,35)
-, (4, B00YS, 'Pokemon Cards','Games',11.26,15)
-, (5, B018H, 'Crayola Colored Pencils','Coloring Pens & Markers',8.90,34)
-, (6, B07MX, 'Butterfly Farm','Biology',35.00,100)
-, (7, B0160, 'Break Open Geodes','STEM toys',34.99,34)
-, (8, B07JN, 'LEGO Marvel Avengers','Building Toys',27.99,32)
-, (9, B01CK, 'Giant Bubble Wands','Toys',14.95,25)
-, (10, B00LM, 'Kids Garden Tool Kit','Outdoor Toys',15.93,54);
+  (1, 100,'Play-Doh','Clay & Dough', 7.99,100)
+, (2, 101,'L.O.L Surprise!','Dolls',10.99,36)
+, (3, 102, 'Jenga','Games',7.19,35)
+, (4, 103, 'Pokemon Cards','Games',11.26,15)
+, (5, 104, 'Crayola Colored Pencils','Coloring Pens & Markers',8.90,34)
+, (6, 105, 'Butterfly Farm','Biology',35.00,100)
+, (7, 106, 'Break Open Geodes','STEM toys',34.99,34)
+, (8, 107, 'LEGO Marvel Avengers','Building Toys',27.99,32)
+, (9, 108, 'Giant Bubble Wands','Toys',14.95,25)
+, (10, 109, 'Kids Garden Tool Kit','Outdoor Toys',15.93,54);
