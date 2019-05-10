@@ -2,8 +2,8 @@ var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require('cli-table');
 var products = new Table({
-  head: ['item_id', 'Product', 'Department', 'Price', 'Stock Quantity']
-, colWidths: [10, 20, 20, 10, 10 ]
+  head: ['Item ID', 'Product', 'Department', 'Price', 'Stock Quantity']
+  , colWidths: [10, 20, 20, 10, 10]
 });
 
 var connection = mysql.createConnection({
@@ -17,45 +17,67 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
- // start();
-  connection.query("SELECT * FROM products", function(err, results) {
+
+  connection.query("SELECT * FROM products", function (err, results) {
     if (err) throw err;
     //console.log(results);
     results.forEach(row => {
-     // console.log(row)
+      // console.log(row)
       products.push(
         [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
 
       );
-      
+
     });
     console.log(products.toString());
+    start();
   });
 });
 
 //The app should then prompt users with two messages.
+function start() {
 
-inquirer.prompt([
+  connection.query("SELECT * FROM products", function (err, results) {
+    if (err) throw err;
 
-    {
-      name: "item_id",
-      message: "What is the item ID you are looking for?"
-    },
+    inquirer.prompt([
 
-    {
-        name: "stock_quantity",
+      {
+        name: "id",
+        message: "What is the item ID you are looking for?"
+      },
+
+      {
+        name: "quantity",
         message: "How many units would you like to buy?"
       }
-     ]) .then(function(iResponse) {
-    
-         console.log(iResponse);
-        // get the information of the chosen item
-     });
+    ]).then(function(answer) {
+     console.log(answer.id);
+     console.log(answer.quantity);
+     connection.query("SELECT * FROM products WHERE ?", { id: answer.id }, function(err, res) {
+    console.log("Quantity: " + res[0].stock_quantity);
+    //  console.log(res)
+    if (answer.quantity < res[0].stock_quantity) {
+      res[0].stock_quantity - answer.quantity;
+      //return value 
 
-      // for ( var j = 0; products.head[i].length; j++){
-//console.log(products.head[i].length)
-     // console.log("Insufficient quantity!");*/
-    
+    }
+
+
+  });
+      
+
+      
+      });
+
+    });
+  }
+
+        
+ 
+
+
+
