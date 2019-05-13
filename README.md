@@ -17,9 +17,7 @@
 
 
 
-update table
-restart table on a reload
 gif of app working
 if they enter wrong id?
-cost decimals
+
 

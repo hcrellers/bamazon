@@ -24,14 +24,14 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  // run the start function after the connection is made to prompt the user
+  
 });
   connection.query("SELECT * FROM products", function (err, results) {
     if (err) throw err;
-    //console.log(results);
+   
     const products = newTable();
     results.forEach(row => {
-      // console.log(row)
+ 
       products.push(
         [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
 
@@ -43,7 +43,7 @@ connection.connect(function (err) {
   });
 
 
-//The app should then prompt users with two messages.
+
 function start() {
 
   connection.query("SELECT * FROM products", function (err, results) {
@@ -75,7 +75,7 @@ function start() {
               default: true
             }
           ]).then(function (response) {
-            // console.log(response.confirm);
+            
             if (response.confirm === true) {
               console.log("Checking quantity...")
             }
@@ -84,7 +84,7 @@ function start() {
             }
             if (answer.quantity < res[0].stock_quantity) {
               var checkStore = res[0].stock_quantity - answer.quantity;
-              // console.log(checkStore)
+            
               console.log("Transaction Complete");
               console.log("Total cost: " + res[0].price * answer.quantity)
 
@@ -99,7 +99,7 @@ function start() {
                 ],
 
                 function (err, res) {
-                  // console.log(res.affectedRows + " products updated!\n");
+                 
                   tableUpdate()
                 });
             }
@@ -122,11 +122,11 @@ function start() {
 function tableUpdate() {
   connection.query("SELECT * FROM products", function (err, results) {
     if (err) throw err;
-    //console.log(results);
+
     const products = newTable();
 
     results.forEach(row => {
-      // console.log(row)
+  
       products.push(
         [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
 
@@ -139,4 +139,3 @@ function tableUpdate() {
 
 }
 
-//clear array before pushing 

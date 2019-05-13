@@ -1,10 +1,14 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require('cli-table');
-var products = new Table({
-    head: ['Item ID', 'Product', 'Department', 'Price', 'Stock Quantity']
-    , colWidths: [10, 30, 20, 10, 20]
-});
+
+function newTable() {
+    var products = new Table({
+      head: ['Item ID', 'Product', 'Department', 'Price', 'Stock Quantity']
+      , colWidths: [10, 30, 20, 10, 20]
+    });
+    return products;
+}
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -35,48 +39,62 @@ connection.connect(function (err) {
                 ]
             })
             .then(function (answer) {
-                // switch (answer.action) {
-                //     case "View Products for Sale":
-                //         saleProducts();
-                //         break;
+            console.log(answer.menu)
+                switch (answer.menu) {
+                    case "View Products for Sale":
+                        saleProducts();
+                        break;
 
-                //     case "View Low Inventory":
-                //         lowInventory();
-                //         break;
+                    case "View Low Inventory":
+                        lowInventory();
+                        break;
 
-                //     case "Add to Inventory":
-                //         addIventory();
-                //         break;
+                    case "Add to Inventory":
+                        addIventory();
+                        break;
 
-                //     case "Add New Product":
-                //         newProduct();
-                //         break;
+                    case "Add New Product":
+                        newProduct();
+                        break;
 
 
-               // }
+               }
             });
 
-        }
+        
+            
+    }
+
+        //if else statment
+        //return statement
 
         menuOptions()
-            // function saleProducts() {
-            //     connection.query("SELECT * FROM products", function (err, results) {
-            //         if (err) throw err;
-            //         //console.log(results);
-            //         results.forEach(row => {
-            //           // console.log(row)
-            //           products.push(
-            //             [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
+
+
+            function saleProducts() {
+
+                connection.query("SELECT * FROM products", function (err, results) {
+                    if (err) throw err;
                 
-            //           );
+                    const products = newTable();
                 
-            //         });
-            //         console.log(products.toString());
-            //         menuOptions();
-            //       });
+                    results.forEach(row => {
+                  
+                      products.push(
+                        [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
+                
+                      );
+                
+                    });
+                    console.log(products.toString());
+                    menuOptions();
+                  });
+                
+                }
+                
                 
 
 
 
-            // }
+    
 
