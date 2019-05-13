@@ -1,9 +1,9 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
-var Table = require('cli-table');
+var table = require('cli-table');
 
 function newTable() {
-    var products = new Table({
+    var products = new table({
       head: ['Item ID', 'Product', 'Department', 'Price', 'Stock Quantity']
       , colWidths: [10, 30, 20, 10, 20]
     });
@@ -60,13 +60,8 @@ connection.connect(function (err) {
 
                }
             });
-
-        
-            
+    
     }
-
-        //if else statment
-        //return statement
 
         menuOptions()
 
@@ -92,6 +87,42 @@ connection.connect(function (err) {
                 
                 }
                 
+
+                function lowInventory() {
+                    connection.query("SELECT * FROM products", function (err, results) {
+                        if (err) throw err;
+                        var tableArr = [];
+                        const products = newTable();
+                
+                        results.forEach(row => {
+                      
+                          tableArr.push(
+                            [row[i].id, row[i].product_name, row[i].department_name, row[i].price, row[i].stock_quantity]
+                    
+                          );
+                     
+                        });
+                        
+
+                        
+                        
+                    
+                      for (var i = 5; i < rows.length; i++) {
+                        console.log(rows[i].stock_quantity);
+                       console.log(products.toString());
+                      
+        
+
+                    // (results.stock_quantity > 5) ;
+                    //     console.log("No low inventory to display");
+                    }
+                      
+                     
+                      
+                      menuOptions();
+                   
+                  });
+                }
                 
 
 

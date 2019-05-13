@@ -2,6 +2,9 @@
 
 * In this CLI application, we created an Amazon-like storefront with the MySQL skills we learned in this unit. The app takes in orders from customers and depletes stock from the store's inventory.
 
+![](gif.gif)
+
+
 ## Instructions
 
 * Run code node bamazonCustomer.js
