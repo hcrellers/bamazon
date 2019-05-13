@@ -17,7 +17,9 @@
 
 
 
-3 update quantity
-4 while loop for total price of purchase
-
+update table
+restart table on a reload
+gif of app working
+if they enter wrong id?
+cost decimals
 

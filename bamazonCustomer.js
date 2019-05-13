@@ -1,10 +1,15 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require('cli-table');
-var products = new Table({
-  head: ['Item ID', 'Product', 'Department', 'Price', 'Stock Quantity']
-  , colWidths: [10, 20, 20, 10, 10]
-});
+
+function newTable() {
+  var products = new Table({
+    head: ['Item ID', 'Product', 'Department', 'Price', 'Stock Quantity']
+    , colWidths: [10, 30, 20, 10, 20]
+  });
+  return products;
+}
+
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -20,10 +25,11 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
-
+});
   connection.query("SELECT * FROM products", function (err, results) {
     if (err) throw err;
     //console.log(results);
+    const products = newTable();
     results.forEach(row => {
       // console.log(row)
       products.push(
@@ -35,7 +41,7 @@ connection.connect(function (err) {
     console.log(products.toString());
     start();
   });
-});
+
 
 //The app should then prompt users with two messages.
 function start() {
@@ -59,10 +65,7 @@ function start() {
       connection.query("SELECT * FROM products WHERE ?", { id: answer.id }, function (err, res) {
         console.log("Purchasing: " + res[0].product_name);
         console.log("How many: " + answer.quantity);
-     //  if (answer.id === id) {
-     //    start()
-      // }
-        //  function confirm() {
+
         inquirer
           .prompt([
             {
@@ -75,31 +78,37 @@ function start() {
             // console.log(response.confirm);
             if (response.confirm === true) {
               console.log("Checking quantity...")
-              if (answer.quantity < res[0].stock_quantity) {
-                var checkStore = res[0].stock_quantity - answer.quantity;
-                 console.log(checkStore)
-                console.log("Transaction Complete");
-                connection.query("UPDATE products SET ? WHERE ?",
-                  [
-                    {
-                      stock_quantity: checkStore
-                    },
-                    {
-                      id: answer.id
-                    }
-                  ],
-
-                  function (err, res) {
-                    console.log(res.affectedRows + " products updated!\n");
-                    tableUpdate()
-                  });
-              }
-              else {
-                console.log("Insufficent quantity!\n");
-                console.log("Quantity in stock: " + res[0].stock_quantity);
-                tableUpdate()
-              }
             }
+            if (response.confirm === false) {
+              start();
+            }
+            if (answer.quantity < res[0].stock_quantity) {
+              var checkStore = res[0].stock_quantity - answer.quantity;
+              // console.log(checkStore)
+              console.log("Transaction Complete");
+              console.log("Total cost: " + res[0].price * answer.quantity)
+
+              connection.query("UPDATE products SET ? WHERE ?",
+                [
+                  {
+                    stock_quantity: checkStore
+                  },
+                  {
+                    id: answer.id
+                  }
+                ],
+
+                function (err, res) {
+                  // console.log(res.affectedRows + " products updated!\n");
+                  tableUpdate()
+                });
+            }
+            else {
+              console.log("Insufficent quantity!\n");
+              console.log("Quantity in stock: " + res[0].stock_quantity);
+              start();
+            }
+
 
           });
 
@@ -114,10 +123,12 @@ function tableUpdate() {
   connection.query("SELECT * FROM products", function (err, results) {
     if (err) throw err;
     //console.log(results);
+    const products = newTable();
+
     results.forEach(row => {
       // console.log(row)
-     products.push(
-       [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
+      products.push(
+        [row.id, row.product_name, row.department_name, row.price, row.stock_quantity]
 
       );
 
@@ -127,3 +138,5 @@ function tableUpdate() {
   });
 
 }
+
+//clear array before pushing 
