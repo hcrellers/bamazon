@@ -20,7 +20,6 @@
 
 
 
-gif of app working
-if they enter wrong id?
+
 
 
